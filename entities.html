@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entity Detection</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .detector-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .results-table {
+            margin-top: 2rem;
+        }
+        .loading-button {
+            position: relative;
+            color: transparent !important;
+        }
+        .loading-button::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 2px solid #fff;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .detection-button {
+            min-width: 140px;
+        }
+        .description-cell {
+            max-width: 400px;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        .table-responsive {
+            box-shadow: 0 0 10px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            background-color: white;
+        }
+    </style>
+</head>
+<body >
+    <nav class="navbar navbar-expand-lg navbar-dark " style="z-index: 3;">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <!-- <img src="logo.png" alt="Dialogflow_buddy"><span style="color: #00E5FF;"> Dialogflow Buddy</span>  -->
+                <img src="Dialogflow.png" alt="Dialogflow_buddy"><span style="color: #00E5FF;">Buddy</span> 
+
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link " href="index2.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="intent.html">Intent</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Entities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Route</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Webhooks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" >Flow Generateor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Debug</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Analytics</a>
+                    </li><li class="nav-item">
+                        <a class="nav-link" href="#">Test Suite</a>
+                    </li>
+                </ul>
+                <button class="login-btn">Log In</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="detector-container">
+        <!-- Header -->
+        <div class="text-center mb-4">
+            <h1 class="fw-bold mb-3 text-white">Entity Detection</h1>
+            <p  style="color:  rgba(255, 255, 255, 0.8);">Automatically identify entities using OpenAI's GPT model.</p>
+        </div>
+
+        <!-- Input Form -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-12">
+                <textarea 
+                    class="form-control mb-3" 
+                    id="entityInput" 
+                    rows="4" 
+                    placeholder="Enter text to detect entities..."
+                ></textarea>
+                <div class="text-center">
+                    <button 
+                        class="btn btn-primary detection-button" 
+                        onclick="detectEntities()"
+                        id="detectButton"
+                    >
+                        Detect Entities
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" style="display: none;">
+            <h2 class="h4 mb-3 text-white">Detected Entities</h2>
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>CATEGORY</th>
+                            <th>NAME</th>
+                            <th>EXTENDABLE</th>
+                            <th>DESCRIPTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Results will be inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for demonstration
+        const mockEntity = {
+            category: 'Raw Detection',
+            name: '@custom.entity',
+            extendable: 'Yes',
+            description: '{"category": "Name", "name": "@sys.person-name", "extendable": true, "description": "Represents a person..."}'
+        };
+
+        function detectEntities() {
+            const button = document.getElementById('detectButton');
+            const resultsSection = document.getElementById('resultsSection');
+            const resultsBody = document.getElementById('resultsBody');
+
+            // Show loading state
+            button.disabled = true;
+            button.classList.add('loading-button');
+            button.textContent = 'Generating Entities...';
+
+            // Simulate API call
+            setTimeout(() => {
+                // Reset button state
+                button.disabled = false;
+                button.classList.remove('loading-button');
+                button.textContent = 'Detect Entities';
+
+                // Show results section
+                resultsSection.style.display = 'block';
+
+                // Clear previous results
+                resultsBody.innerHTML = '';
+
+                // Add mock result
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${mockEntity.category}</td>
+                    <td>${mockEntity.name}</td>
+                    <td>${mockEntity.extendable}</td>
+                    <td class="description-cell"><code>${mockEntity.description}</code></td>
+                `;
+                resultsBody.appendChild(row);
+            }, 1500);
+        }
+
+        // Handle Enter key in input
+        document.getElementById('entityInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                detectEntities();
+            }
+        });
+    </script>
+</body>
+</html>

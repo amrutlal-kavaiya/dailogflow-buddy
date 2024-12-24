@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dilogflow Buddy</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Particle Animation -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark " style="z-index: 3;">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <!-- <img src="logo.png" alt="Dialogflow_buddy"><span style="color: #00E5FF;"> Dialogflow Buddy</span>  -->
+                <img src="Dialogflow.png" alt="Dialogflow_buddy"><span style="color: #00E5FF;">Buddy</span> 
+
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index2.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="intent.html">Intent</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="entities.html">Entities</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Route</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Webhooks</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" >Flow Generateor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Debug</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Analytics</a>
+                    </li><li class="nav-item">
+                        <a class="nav-link" href="#">Test Suite</a>
+                    </li>
+                </ul>
+                <button class="login-btn">Log In</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container" style="position: relative; z-index: 2;">
+            <div class="row" style="display: flex; align-items: center;">
+                <div class="col-lg-6 hero-content" style="flex: 1; margin-top: -30rem;">
+                    <h1>Revolutionize Your Dialogflow Chatbots</h1>
+                    <p>Elevate your customer service and streamline operations with our powerful AI solutions, crafted to enhance every interaction with precision and ease.</p>
+                    <a href="#" class="cta-btn">Learn More</a>
+                    <a href="#" class="cta-btn">Contact Us</a>
+                </div>
+                <div class="col-lg-6" style="flex: 1; display: flex; justify-content: center;">
+                    <div class="robot-container" style="position: relative;">
+                        <!-- <img src="/api/placeholder/400/500" alt="AI Robot" class="img-fluid">
+                        <div class="robot-platform"></div> -->
+                        <dotlottie-player src="https://lottie.host/7f485aba-d883-4b55-a8af-faaba59b4ca2/Ledz8ctCRL.lottie" background="transparent" speed="1" style="width: 600px; height: 600px" loop autoplay></dotlottie-player>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="cloud"></div> -->
+    </section>
+    <div class="container">
+        <div class="card">
+          <div class="icon">🤖</div>
+          <h3>Intent Generation</h3>
+          <p>AI-powered intent generation for your Dialogflow chatbot</p>
+        </div>
+        <div class="card">
+          <div class="icon">⚙️</div>
+          <h3>Entity Detection</h3>
+          <p>Automatically identify entities and parameters</p>
+        </div>
+        <div class="card">
+          <div class="icon">🗺️</div>
+          <h3>Route Creation</h3>
+          <p>Generate conversation flows and routes</p>
+        </div>
+        <div class="card">
+          <div class="icon">💻</div>
+          <h3>Webhook Generator</h3>
+          <p>Create webhooks and fulfillment code</p>
+        </div>
+        <div class="card">
+          <div class="icon">📊</div>
+          <h3>Flow Generator</h3>
+          <p>Design and generate custom workflow diagrams with an intuitive interface</p>
+        </div>
+        <div class="card">
+          <div class="icon">🐞</div>
+          <h3>Debugddy</h3>
+          <p>Advanced debugging tool for tracking and resolving application issues</p>
+        </div>
+        <div class="card">
+          <div class="icon">📈</div>
+          <h3>Analytics Dashboard</h3>
+          <p>Track and analyze chatbot performance metrics and user interactions</p>
+        </div>
+        <div class="card">
+          <div class="icon">🛠️</div>
+          <h3>Test Suite</h3>
+          <p>Automated testing tools for validating chatbot responses and conversation flows</p>
+        </div>
+      </div>
+    <div class="container">
+      <div class="pricing-container">
+        <h1>Choose the perfect plan for your needs</h1>
+        <p>Scale your chatbot development with our flexible pricing options</p>
+        <div class="pricing-grid">
+          <!-- Free Plan -->
+          <div class="pricing-card">
+            <h2>Free</h2>
+            <p class="price">$0</p>
+            <p>Perfect for getting started</p>
+            <ul>
+              <li>✔️ Basic intent generation (5/month)</li>
+              <li>✔️ Simple entity detection</li>
+              <li>✔️ Basic conversation flows</li>
+              <li>✔️ Community support</li>
+              <li>✔️ Basic analytics dashboard</li>
+              <li>✔️ Manual testing tools</li>
+            </ul>
+            <button>Start Free</button>
+          </div>
+          <!-- Pro Plan -->
+          <div class="pricing-card popular">
+            <div class="badge">Popular</div>
+            <h2>Pro</h2>
+            <p class="price">$49/month</p>
+            <p>Great for growing chatbots</p>
+            <ul>
+              <li>✔️ Advanced intent generation (100/month)</li>
+              <li>✔️ Advanced entity detection & parameters</li>
+              <li>✔️ Custom conversation flows</li>
+              <li>✔️ Webhook generation & templates</li>
+              <li>✔️ Basic workflow diagrams</li>
+              <li>✔️ Debug console access</li>
+              <li>✔️ Enhanced analytics dashboard</li>
+              <li>✔️ Automated test suite</li>
+              <li>✔️ Priority email support</li>
+              <li>✔️ API access</li>
+            </ul>
+            <button>Go Pro</button>
+          </div>
+          <!-- Enterprise Plan -->
+          <div class="pricing-card">
+            <h2>Enterprise</h2>
+            <p class="price">Custom</p>
+            <p>For large-scale deployments</p>
+            <ul>
+              <li>✔️ Unlimited intent generation</li>
+              <li>✔️ Custom entity models</li>
+              <li>✔️ Advanced workflow automation</li>
+              <li>✔️ Custom webhook development</li>
+              <li>✔️ Advanced flow visualization</li>
+              <li>✔️ Premium debugging tools</li>
+              <li>✔️ Custom analytics & reporting</li>
+              <li>✔️ End-to-end testing suite</li>
+              <li>✔️ Dedicated support manager</li>
+              <li>✔️ Custom SLA guarantees</li>
+              <li>✔️ Training & onboarding</li>
+              <li>✔️ Custom integrations</li>
+            </ul>
+            <button>Contact Sales</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer mt-4">
+        <div class="footer-container">
+          <div class="footer-brand">
+            <img src="Dialogflow.png" alt="Dialogflow Buddy" class="footer-logo">
+            <h2><span style="color: #00E5FF;">Buddy</span></h2>
+            <p>Making Dialogflow development easier and more efficient.</p>
+            <div class="footer-socials">
+              <a href="#"><img src="github.png" alt="GitHub"></a>
+              <a href="#"><img src="twitter.png" alt="Twitter"></a>
+              <a href="#"><img src="linkedin.png" alt="LinkedIn"></a>
+              <a href="#"><img src="discord.png" alt="Discord"></a>
+            </div>
+          </div>
+          <div class="footer-links">
+            <div>
+              <h3>Product</h3>
+              <ul>
+                <li><a href="#">Features</a></li>
+                <li><a href="#">Pricing</a></li>
+                <li><a href="#">Documentation</a></li>
+                <li><a href="#">API Reference</a></li>
+              </ul>
+            </div>
+            <div>
+              <h3>Solutions</h3>
+              <ul>
+                <li><a href="#">Intent Generation</a></li>
+                <li><a href="#">Entity Detection</a></li>
+                <li><a href="#">Route Creation</a></li>
+                <li><a href="#">Webhooks</a></li>
+              </ul>
+            </div>
+            <div>
+                <h3>Company</h3>
+                <ul>
+                  <li><a href="#">About</a></li>
+                  <li><a href="#">Blog</a></li>
+                  <li><a href="#">Careers</a></li>
+                  <li><a href="#">Contact</a></li>
+                </ul>
+              </div>
+              <div>
+                <h3>Legal</h3>
+                <ul>
+                  <li><a href="#">Privacy</a></li>
+                  <li><a href="#">Terms</a></li>
+                </ul>
+              </div>
+            
+            <div>
+       
+         
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+
+            for (let i = 0; i < particleCount; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    
+                    // Random size between 5 and 15 pixels
+                    const size = Math.random() * 10 + 5;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    
+                    // Random horizontal position
+                    particle.style.left = `${Math.random() * 100}%`;
+                    
+                    // Random animation duration between 3 and 6 seconds
+                    particle.style.animationDuration = `${Math.random() * 3 + 3}s`;
+                    
+                    particlesContainer.appendChild(particle);
+                    
+                    // Remove particle after animation
+                    particle.addEventListener('animationend', () => {
+                        particle.remove();
+                    });
+                }, i * 300); // Stagger particle creation
+            }
+        }
+
+        // Create new particles every few seconds
+        setInterval(createParticles, 2000);
+        createParticles(); // Initial particles
+    </script>
+</body>
+</html>

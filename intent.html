@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intent Generator</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .intent-item {
+            transition: all 0.3s ease;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .intent-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .action-btn {
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+        .action-btn:hover {
+            opacity: 1;
+        }
+        .loader {
+            display: none;
+            width: 24px;
+            height: 24px;
+            border: 3px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 3px solid #3498db;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .generated-section {
+            display: none;
+        }
+        .custom-intent-input {
+            border-right: none;
+        }
+        .add-intent-btn {
+            border-left: none;
+        }
+    </style>
+</head>
+<nav class="navbar navbar-expand-lg navbar-dark " style="z-index: 3;">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <!-- <img src="logo.png" alt="Dialogflow_buddy"><span style="color: #00E5FF;"> Dialogflow Buddy</span>  -->
+            <img src="Dialogflow.png" alt="Dialogflow_buddy"><span style="color: #00E5FF;">Buddy</span> 
+
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="index2.html">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Intent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="entities.html">Entities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Route</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Webhooks</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" >Flow Generateor</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Debug</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Analytics</a>
+                </li><li class="nav-item">
+                    <a class="nav-link" href="#">Test Suite</a>
+                </li>
+            </ul>
+            <button class="login-btn">Log In</button>
+        </div>
+    </div>
+</nav>
+<body >
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <!-- Base Intent Input -->
+                <div class="mb-4">
+                    <label class="text-primary fw-bold mb-2">Enter your base intent:</label>
+                    <textarea 
+                        class="form-control mb-3" 
+                        id="baseIntent" 
+                        rows="4" 
+                        placeholder="Enter your intent here..."
+                    ></textarea>
+                    <button 
+                        id="generateBtn"
+                        class="btn btn-primary w-100 position-relative"
+                        onclick="generateIntents()"
+                    >
+                        <span id="btnText">Generate Similar Intents</span>
+                        <div id="loader" class="loader position-absolute top-50 start-50 translate-middle"></div>
+                    </button>
+                </div>
+
+                <!-- Custom Intent Input -->
+                <div class="input-group mb-4">
+                    <input 
+                        type="text" 
+                        class="form-control custom-intent-input" 
+                        placeholder="Add custom intent..." 
+                        id="customIntent"
+                    >
+                    <button 
+                        class="btn btn-outline-primary add-intent-btn"
+                        onclick="addCustomIntent()"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Generated Intents Section -->
+                <div id="generatedSection" class="generated-section animate__animated animate__fadeIn">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h5 class="text-primary m-0">Generated Intents</h5>
+                        <button class="btn btn-success" onclick="exportCSV()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download me-2" viewBox="0 0 16 16">
+                                <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5"/>
+                                <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                            </svg>
+                            Export CSV
+                        </button>
+                    </div>
+
+                    <div id="intentsList">
+                        <!-- Intent items will be added here dynamically -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mockIntents = [
+            "Remove my account",
+            "Cancel my account permanently",
+            "Close my account",
+            "Deactivate my profile",
+            "Erase my account",
+            "Terminate my account"
+        ];
+
+        function generateIntents() {
+            const btn = document.getElementById('generateBtn');
+            const btnText = document.getElementById('btnText');
+            const loader = document.getElementById('loader');
+            const generatedSection = document.getElementById('generatedSection');
+
+            // Show loading state
+            btnText.textContent = 'Generating...';
+            loader.style.display = 'block';
+            btn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                // Hide loading state
+                btnText.textContent = 'Generate Similar Intents';
+                loader.style.display = 'none';
+                btn.disabled = false;
+
+                // Show generated section
+                generatedSection.style.display = 'block';
+                
+                // Clear previous intents
+                document.getElementById('intentsList').innerHTML = '';
+
+                // Add mock intents
+                mockIntents.forEach(addIntentItem);
+            }, 1500);
+        }
+
+        function addIntentItem(text) {
+            const intentsList = document.getElementById('intentsList');
+            const div = document.createElement('div');
+            div.className = 'intent-item p-3 mb-3 animate__animated animate__fadeInUp';
+            div.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="intent-text" contenteditable="false">${text}</div>
+                    <div class="action-buttons">
+                        <button class="btn btn-link action-btn p-1" onclick="startEditing(this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                                <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                            </svg>
+                        </button>
+                        <button class="btn btn-link action-btn p-1 text-danger" onclick="deleteIntent(this)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+            `;
+            intentsList.appendChild(div);
+        }
+
+        function startEditing(btn) {
+            const intentItem = btn.closest('.intent-item');
+            const textElement = intentItem.querySelector('.intent-text');
+            
+            // Enable editing
+            textElement.contentEditable = true;
+            textElement.classList.add('editing');
+            intentItem.querySelector('.d-flex').classList.add('editing-active');
+            
+            // Focus on the text
+            textElement.focus();
+            
+            // Place cursor at the end
+            const range = document.createRange();
+            const selection = window.getSelection();
+            range.selectNodeContents(textElement);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+
+            // Add blur event listener for auto-save
+            textElement.addEventListener('blur', function saveOnBlur() {
+                // Disable editing
+                textElement.contentEditable = false;
+                textElement.classList.remove('editing');
+                intentItem.querySelector('.d-flex').classList.remove('editing-active');
+                
+                // Remove this event listener
+                textElement.removeEventListener('blur', saveOnBlur);
+            });
+
+            // Add escape key listener to cancel editing
+            textElement.addEventListener('keydown', function handleEscape(e) {
+                if (e.key === 'Escape') {
+                    textElement.blur();
+                }
+            });
+        }
+
+        function addCustomIntent() {
+            const input = document.getElementById('customIntent');
+            const text = input.value.trim();
+            if (text) {
+                addIntentItem(text);
+                input.value = '';
+                if (document.getElementById('generatedSection').style.display === 'none') {
+                    document.getElementById('generatedSection').style.display = 'block';
+                }
+            }
+        }
+
+        function deleteIntent(btn) {
+            const intentItem = btn.closest('.intent-item');
+            intentItem.classList.add('animate__fadeOutRight');
+            setTimeout(() => intentItem.remove(), 500);
+        }
+
+        function exportCSV() {
+            const intents = Array.from(document.querySelectorAll('.intent-text'))
+                .map(div => div.textContent);
+            const csv = 'Intent\n' + intents.join('\n');
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'generated_intents.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Handle Enter key in custom intent input
+        document.getElementById('customIntent').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addCustomIntent();
+            }
+        });
+    </script>
+</body>
+</html>
